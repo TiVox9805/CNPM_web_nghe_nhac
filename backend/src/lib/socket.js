@@ -6,7 +6,9 @@ export const initializeSocket = (server) => {
 		cors: {
 			origin: [
 			"http://localhost:3000",
-			"https://cnpm-webnghenhacnhom2-production.up.railway.app/"
+			"http://localhost:5173",
+			"https://cnpm-webnghenhacnhom2-production.up.railway.app",
+			"https://cnpm-web-nghe-nhac-nhom2.vercel.app"
 			],
 			credentials: true,
 		},
