@@ -1,10 +1,22 @@
-import { Song } from "../models/song.model.js";
+import {
+	getAllSongsService,
+	getFeaturedSongsService,
+	getMadeForYouSongsService,
+	getTrendingSongsService,
+} from "../service/song.service.js";
 
 export const getAllSongs = async (req, res, next) => {
 	try {
-		// -1 = Descending => newest -> oldest
-		// 1 = Ascending => oldest -> newest
-		const songs = await Song.find().sort({ createdAt: -1 });
+		const songs = await getAllSongsService();
+		res.json(songs);
+	} catch (error) {
+		next(error);
+	}
+};
+
+export const getAllSongsPublic = async (req, res, next) => {
+	try {
+		const songs = await getAllSongsService();
 		res.json(songs);
 	} catch (error) {
 		next(error);
@@ -13,22 +25,7 @@ export const getAllSongs = async (req, res, next) => {
 
 export const getFeaturedSongs = async (req, res, next) => {
 	try {
-		// fetch 6 random songs using mongodb's aggregation pipeline
-		const songs = await Song.aggregate([
-			{
-				$sample: { size: 6 },
-			},
-			{
-				$project: {
-					_id: 1,
-					title: 1,
-					artist: 1,
-					imageUrl: 1,
-					audioUrl: 1,
-				},
-			},
-		]);
-
+		const songs = await getFeaturedSongsService();
 		res.json(songs);
 	} catch (error) {
 		next(error);
@@ -37,21 +34,7 @@ export const getFeaturedSongs = async (req, res, next) => {
 
 export const getMadeForYouSongs = async (req, res, next) => {
 	try {
-		const songs = await Song.aggregate([
-			{
-				$sample: { size: 4 },
-			},
-			{
-				$project: {
-					_id: 1,
-					title: 1,
-					artist: 1,
-					imageUrl: 1,
-					audioUrl: 1,
-				},
-			},
-		]);
-
+		const songs = await getMadeForYouSongsService();
 		res.json(songs);
 	} catch (error) {
 		next(error);
@@ -60,23 +43,10 @@ export const getMadeForYouSongs = async (req, res, next) => {
 
 export const getTrendingSongs = async (req, res, next) => {
 	try {
-		const songs = await Song.aggregate([
-			{
-				$sample: { size: 4 },
-			},
-			{
-				$project: {
-					_id: 1,
-					title: 1,
-					artist: 1,
-					imageUrl: 1,
-					audioUrl: 1,
-				},
-			},
-		]);
-
+		const songs = await getTrendingSongsService();
 		res.json(songs);
 	} catch (error) {
 		next(error);
 	}
 };
+

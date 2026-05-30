@@ -22,6 +22,16 @@ const songSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 		},
+		genres: [
+			{
+				type: String,
+				trim: true,
+			},
+		],
+		lyrics: {
+			type: String,
+			default: "",
+		},
 		albumId: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Album",

@@ -21,6 +21,8 @@ interface NewSong {
 	artist: string;
 	album: string;
 	duration: string;
+	lyrics: string;
+	genres: string;
 }
 
 const AddSongDialog = () => {
@@ -33,6 +35,8 @@ const AddSongDialog = () => {
 		artist: "",
 		album: "",
 		duration: "0",
+		lyrics: "",
+		genres: "",
 	});
 
 	const [files, setFiles] = useState<{ audio: File | null; image: File | null }>({
@@ -56,6 +60,8 @@ const AddSongDialog = () => {
 			formData.append("title", newSong.title);
 			formData.append("artist", newSong.artist);
 			formData.append("duration", newSong.duration);
+			formData.append("lyrics", newSong.lyrics);
+			formData.append("genres", newSong.genres);
 			if (newSong.album && newSong.album !== "none") {
 				formData.append("albumId", newSong.album);
 			}
@@ -71,6 +77,8 @@ const AddSongDialog = () => {
 				artist: "",
 				album: "",
 				duration: "0",
+				lyrics: "",
+				genres: "",
 			});
 
 			setFiles({
@@ -183,6 +191,16 @@ const AddSongDialog = () => {
 					</div>
 
 					<div className='space-y-2'>
+						<label className='text-sm font-medium'>Genres (Optional, comma separated)</label>
+						<Input
+							value={newSong.genres}
+							onChange={(e) => setNewSong({ ...newSong, genres: e.target.value })}
+							placeholder='Pop, Rock, R&B'
+							className='bg-zinc-800 border-zinc-700'
+						/>
+					</div>
+
+					<div className='space-y-2'>
 						<label className='text-sm font-medium'>Album (Optional)</label>
 						<Select
 							value={newSong.album}
@@ -200,6 +218,16 @@ const AddSongDialog = () => {
 								))}
 							</SelectContent>
 						</Select>
+					</div>
+
+					<div className='space-y-2'>
+						<label className='text-sm font-medium'>Lyrics (Optional)</label>
+						<textarea
+							value={newSong.lyrics}
+							onChange={(e) => setNewSong({ ...newSong, lyrics: e.target.value })}
+							placeholder='Paste or write song lyrics here...'
+							className='flex min-h-[100px] w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm ring-offset-background placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'
+						/>
 					</div>
 				</div>
 

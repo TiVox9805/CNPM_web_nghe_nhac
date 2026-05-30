@@ -11,7 +11,7 @@ const formatTime = (seconds: number) => {
 };
 
 export const PlaybackControls = () => {
-	const { currentSong, isPlaying, togglePlay, playNext, playPrevious } = usePlayerStore();
+	const { currentSong, isPlaying, togglePlay, playNext, playPrevious, showLyrics, toggleLyrics } = usePlayerStore();
 
 	const [volume, setVolume] = useState(75);
 	const [currentTime, setCurrentTime] = useState(0);
@@ -50,22 +50,33 @@ export const PlaybackControls = () => {
 	};
 
 	return (
-		<footer className='h-20 sm:h-24 bg-zinc-900 border-t border-zinc-800 px-4'>
+		<footer className='relative h-20 sm:h-24 bg-zinc-900 border-t border-zinc-800 px-4 select-none'>
+			{/* Mobile seek bar at the very top of the playbar */}
+			<div className='block sm:hidden absolute top-0 left-0 right-0 px-2 z-10'>
+				<Slider
+					value={[currentTime]}
+					max={duration || 100}
+					step={1}
+					className='w-full hover:cursor-grab active:cursor-grabbing'
+					onValueChange={handleSeek}
+				/>
+			</div>
+
 			<div className='flex justify-between items-center h-full max-w-[1800px] mx-auto'>
 				{/* currently playing song */}
-				<div className='hidden sm:flex items-center gap-4 min-w-[180px] w-[30%]'>
+				<div className='flex items-center gap-3 sm:gap-4 min-w-[120px] sm:min-w-[180px] w-[35%] sm:w-[30%]'>
 					{currentSong && (
 						<>
 							<img
 								src={currentSong.imageUrl}
 								alt={currentSong.title}
-								className='w-14 h-14 object-cover rounded-md'
+								className='w-10 h-10 sm:w-14 sm:h-14 object-cover rounded-md flex-shrink-0 border border-white/5 shadow-md'
 							/>
 							<div className='flex-1 min-w-0'>
-								<div className='font-medium truncate hover:underline cursor-pointer'>
+								<div className='font-medium text-xs sm:text-sm truncate hover:underline cursor-pointer text-white'>
 									{currentSong.title}
 								</div>
-								<div className='text-sm text-zinc-400 truncate hover:underline cursor-pointer'>
+								<div className='text-[10px] sm:text-xs text-zinc-400 truncate hover:underline cursor-pointer mt-0.5'>
 									{currentSong.artist}
 								</div>
 							</div>
@@ -74,8 +85,8 @@ export const PlaybackControls = () => {
 				</div>
 
 				{/* player controls*/}
-				<div className='flex flex-col items-center gap-2 flex-1 max-w-full sm:max-w-[45%]'>
-					<div className='flex items-center gap-4 sm:gap-6'>
+				<div className='flex flex-col items-center gap-1.5 flex-1 max-w-[50%] sm:max-w-[45%]'>
+					<div className='flex items-center gap-3 sm:gap-6'>
 						<Button
 							size='icon'
 							variant='ghost'
@@ -87,30 +98,32 @@ export const PlaybackControls = () => {
 						<Button
 							size='icon'
 							variant='ghost'
-							className='hover:text-white text-zinc-400'
+							className='hover:text-white text-zinc-400 h-8 w-8 sm:h-10 sm:w-10'
 							onClick={playPrevious}
 							disabled={!currentSong}
 						>
-							<SkipBack className='h-4 w-4' />
+							<SkipBack className='h-4 w-4 sm:h-5 sm:w-5' />
 						</Button>
 
 						<Button
 							size='icon'
-							className='bg-white hover:bg-white/80 text-black rounded-full h-8 w-8'
+							className='bg-white hover:bg-white/85 text-black rounded-full h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center'
 							onClick={togglePlay}
 							disabled={!currentSong}
 						>
-							{isPlaying ? <Pause className='h-5 w-5' /> : <Play className='h-5 w-5' />}
+							{isPlaying ? <Pause className='h-4 w-4 sm:h-5 sm:w-5 text-black fill-black' /> : <Play className='h-4 w-4 sm:h-5 sm:w-5 text-black fill-black ml-0.5' />}
 						</Button>
+
 						<Button
 							size='icon'
 							variant='ghost'
-							className='hover:text-white text-zinc-400'
+							className='hover:text-white text-zinc-400 h-8 w-8 sm:h-10 sm:w-10'
 							onClick={playNext}
 							disabled={!currentSong}
 						>
-							<SkipForward className='h-4 w-4' />
+							<SkipForward className='h-4 w-4 sm:h-5 sm:w-5' />
 						</Button>
+
 						<Button
 							size='icon'
 							variant='ghost'
@@ -120,6 +133,7 @@ export const PlaybackControls = () => {
 						</Button>
 					</div>
 
+					{/* Desktop seek bar */}
 					<div className='hidden sm:flex items-center gap-2 w-full'>
 						<div className='text-xs text-zinc-400'>{formatTime(currentTime)}</div>
 						<Slider
@@ -132,19 +146,27 @@ export const PlaybackControls = () => {
 						<div className='text-xs text-zinc-400'>{formatTime(duration)}</div>
 					</div>
 				</div>
-				{/* volume controls */}
-				<div className='hidden sm:flex items-center gap-4 min-w-[180px] w-[30%] justify-end'>
-					<Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
-						<Mic2 className='h-4 w-4' />
+
+				{/* volume and options controls */}
+				<div className='flex items-center gap-2 sm:gap-4 min-w-[40px] sm:min-w-[180px] w-[20%] sm:w-[30%] justify-end'>
+					<Button
+						onClick={toggleLyrics}
+						disabled={!currentSong}
+						size='icon'
+						variant='ghost'
+						className={`hover:text-white transition-all h-8 w-8 sm:h-10 sm:w-10 ${showLyrics ? "text-green-500 hover:text-green-400 scale-105" : "text-zinc-400"}`}
+						title="Lyrics"
+					>
+						<Mic2 className='h-4 w-4 sm:h-5 sm:w-5' />
 					</Button>
-					<Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
+					<Button size='icon' variant='ghost' className='hidden sm:inline-flex hover:text-white text-zinc-400'>
 						<ListMusic className='h-4 w-4' />
 					</Button>
-					<Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
+					<Button size='icon' variant='ghost' className='hidden sm:inline-flex hover:text-white text-zinc-400'>
 						<Laptop2 className='h-4 w-4' />
 					</Button>
 
-					<div className='flex items-center gap-2'>
+					<div className='hidden sm:flex items-center gap-2'>
 						<Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
 							<Volume1 className='h-4 w-4' />
 						</Button>

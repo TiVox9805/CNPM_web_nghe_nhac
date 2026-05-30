@@ -1,8 +1,19 @@
 import axios from "axios";
 
-const API_URL =
-	import.meta.env.VITE_API_URL ||
-	"http://localhost:5000";
+const getApiUrl = () => {
+	if (typeof window !== "undefined") {
+		const hostname = window.location.hostname;
+		if (hostname === "localhost" || hostname === "127.0.0.1") {
+			if (window.location.port === "5000") {
+				return window.location.origin;
+			}
+			return "http://localhost:5000";
+		}
+	}
+	return import.meta.env.VITE_API_URL || "";
+};
+
+export const API_URL = getApiUrl();
 
 console.log("🔌 API_URL:", API_URL); // Debug log
 console.log("🔌 VITE_API_URL:", import.meta.env.VITE_API_URL); // Debug log
@@ -17,7 +28,7 @@ axiosInstance.interceptors.request.use(
 		const token = config.headers.Authorization;
 		console.log("📤 Request to:", config.url);
 		console.log("📤 Has Authorization header:", !!token);
-		if (token) {
+		if (token && typeof token === "string") {
 			console.log("📤 Token preview:", token.substring(0, 30) + "...");
 		}
 		return config;

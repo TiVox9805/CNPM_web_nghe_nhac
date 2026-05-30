@@ -25,16 +25,16 @@ function App() {
 				<Route path='/signin' element={<SignInPage />} />
 				<Route path='/signup' element={<SignUpPage />} />
 
-				<Route
-					path='/'
-					element={
-						<ProtectedRoute>
-							<MainLayout />
-						</ProtectedRoute>
-					}
-				>
+				<Route path='/' element={<MainLayout />}>
 					<Route index element={<HomePage />} />
-					<Route path='chat' element={<ChatPage />} />
+					<Route
+						path='chat'
+						element={
+							<ProtectedRoute>
+								<ChatPage />
+							</ProtectedRoute>
+						}
+					/>
 					<Route path='albums/:albumId' element={<AlbumPage />} />
 				</Route>
 

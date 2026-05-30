@@ -8,6 +8,8 @@ export interface Song {
 	duration: number;
 	createdAt: string;
 	updatedAt: string;
+	genres?: string[];
+	lyrics?: string;
 }
 
 export interface Album {
@@ -17,6 +19,25 @@ export interface Album {
 	imageUrl: string;
 	releaseYear: number;
 	songs: Song[];
+}
+
+export interface Playlist {
+	_id: string;
+	name: string;
+	description?: string;
+	imageUrl?: string;
+	userId: string;
+	songs: Song[];
+	createdAt: string;
+	updatedAt: string;
+}
+
+export interface Favorite {
+	_id: string;
+	userId: string;
+	songId: string;
+	createdAt: string;
+	updatedAt: string;
 }
 
 export interface Stats {

@@ -1,7 +1,6 @@
 import { Song } from "../models/song.model.js";
 import { Album } from "../models/album.model.js";
 import cloudinary from "../lib/cloudinary.js";
-
 // helper function for cloudinary uploads
 const uploadToCloudinary = async (file) => {
 	try {
@@ -25,12 +24,20 @@ export const createSong = async (req, res, next) => {
 			return res.status(400).json({ message: "Please upload all files" });
 		}
 
-		const { title, artist, albumId, duration } = req.body;
+		const { title, artist, albumId, duration, lyrics, genres } = req.body;
 		const audioFile = req.files.audioFile;
 		const imageFile = req.files.imageFile;
 
 		const audioUrl = await uploadToCloudinary(audioFile);
 		const imageUrl = await uploadToCloudinary(imageFile);
+
+		let parsedGenres = [];
+		if (genres) {
+			parsedGenres = genres
+				.split(",")
+				.map((g) => g.trim())
+				.filter(Boolean);
+		}
 
 		const song = new Song({
 			title,
@@ -38,6 +45,8 @@ export const createSong = async (req, res, next) => {
 			audioUrl,
 			imageUrl,
 			duration,
+			lyrics: lyrics || "",
+			genres: parsedGenres,
 			albumId: albumId || null,
 		});
 

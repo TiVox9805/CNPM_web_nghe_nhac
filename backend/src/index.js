@@ -18,6 +18,8 @@ import authRoutes from "./routes/auth.route.js";
 import songRoutes from "./routes/song.route.js";
 import albumRoutes from "./routes/album.route.js";
 import statRoutes from "./routes/stat.route.js";
+import playlistRoutes from "./routes/playlist.route.js";
+import favoriteRoutes from "./routes/favorite.route.js";
 
 dotenv.config();
 
@@ -33,12 +35,17 @@ initializeSocket(httpServer);
 app.use(
 	cors({
 		origin: [
-			"http://localhost:5173",
+			"http://localhost:3000",
 			"https://cnpm-web-nghe-nhac-nhom2.vercel.app",
 		],
 		credentials: true,
 	})
 );
+
+app.use((req, res, next) => {
+	console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+	next();
+});
 
 app.use(express.json());
 app.use(clerkMiddleware());
@@ -75,6 +82,15 @@ app.use("/api/auth", authRoutes);
 app.use("/api/songs", songRoutes);
 app.use("/api/albums", albumRoutes);
 app.use("/api/stats", statRoutes);
+app.use("/api/playlists", playlistRoutes);
+app.use("/api/favorites", favoriteRoutes);
+const frontendPath = path.join(__dirname, "../../frontend/dist");
+
+app.use(express.static(frontendPath));
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(frontendPath, "index.html"));
+});
 
 app.get("/api/health", (req, res) => {
 	res.json({
@@ -97,7 +113,6 @@ app.use((err, req, res, next) => {
 const startServer = async () => {
 	try {
 		await connectDB();
-
 		httpServer.listen(PORT, () => {
 			console.log(`Server running on port ${PORT}`);
 		});

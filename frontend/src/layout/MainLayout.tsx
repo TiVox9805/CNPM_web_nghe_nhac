@@ -4,6 +4,8 @@ import LeftSidebar from "./components/LeftSidebar";
 import FriendsActivity from "./components/FriendsActivity";
 import AudioPlayer from "./components/AudioPlayer";
 import { PlaybackControls } from "./components/PlaybackControls";
+import LyricsOverlay from "./components/LyricsOverlay";
+import FloatingArtwork from "./components/FloatingArtwork";
 import { useEffect, useState } from "react";
 
 const MainLayout = () => {
@@ -11,7 +13,9 @@ const MainLayout = () => {
 
 	useEffect(() => {
 		const checkMobile = () => {
-			setIsMobile(window.innerWidth < 768);
+			if (window.innerWidth > 0) {
+				setIsMobile(window.innerWidth < 768);
+			}
 		};
 
 		checkMobile();
@@ -20,8 +24,14 @@ const MainLayout = () => {
 	}, []);
 
 	return (
-		<div className='h-screen bg-black text-white flex flex-col'>
-			<ResizablePanelGroup direction='horizontal' className='flex-1 flex h-full overflow-hidden p-2'>
+		<div className='h-screen bg-black text-white flex flex-col relative overflow-hidden'>
+			<LyricsOverlay />
+			<FloatingArtwork />
+			<ResizablePanelGroup 
+				direction='horizontal' 
+				autoSaveId='music-app-layout' 
+				className='flex-1 flex h-full overflow-hidden p-2'
+			>
 				<AudioPlayer />
 				{/* left sidebar */}
 				<ResizablePanel defaultSize={20} minSize={isMobile ? 0 : 10} maxSize={30}>

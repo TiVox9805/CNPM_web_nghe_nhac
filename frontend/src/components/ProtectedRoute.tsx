@@ -1,6 +1,6 @@
 import { useAuth } from "@clerk/clerk-react";
 import { ReactNode } from "react";
-import LandingPage from "@/pages/landing/LandingPage";
+import { Navigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
 	children: ReactNode;
@@ -18,7 +18,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 	}
 
 	if (!isSignedIn) {
-		return <LandingPage />;
+		return <Navigate to='/signin' replace />;
 	}
 
 	return <>{children}</>;
