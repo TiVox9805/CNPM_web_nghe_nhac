@@ -88,7 +88,7 @@ const HomePage = () => {
 
 	if (activeSection) {
 		const sectionTitle = activeSection === "made-for-you" ? "Made For You" : "Trending";
-		const sectionDesc = activeSection === "made-for-you" 
+		const sectionDesc = activeSection === "made-for-you"
 			? "Your personalized daily mix of fresh tracks, handpicked by our recommendations engine."
 			: "The hottest tracks trending across the platform right now.";
 		const bannerBg = activeSection === "made-for-you" ? "from-[#1e3a8a]/80" : "from-[#b91c1c]/80";
@@ -117,7 +117,7 @@ const HomePage = () => {
 								{sectionDesc}
 							</p>
 							<div className="flex items-center gap-2 text-sm text-zinc-400 mt-2">
-								<span className="font-semibold text-white">Spotify Clone</span>
+								<span className="font-semibold text-white">Dreamweaver</span>
 								<span>•</span>
 								<span>{songs.length} songs</span>
 							</div>
@@ -160,9 +160,8 @@ const HomePage = () => {
 									<div
 										key={song._id}
 										onClick={() => handlePlaySectionSong(index)}
-										className={`grid grid-cols-[16px_4fr_2fr_1fr_40px] gap-4 px-4 py-3 text-sm text-zinc-400 hover:bg-white/5 rounded-md group cursor-pointer items-center transition-all ${
-											isCurrentSong ? "bg-white/5" : ""
-										}`}
+										className={`grid grid-cols-[16px_4fr_2fr_1fr_40px] gap-4 px-4 py-3 text-sm text-zinc-400 hover:bg-white/5 rounded-md group cursor-pointer items-center transition-all ${isCurrentSong ? "bg-white/5" : ""
+											}`}
 									>
 										<div className="flex items-center justify-center">
 											{isCurrentSong && isPlaying ? (
@@ -214,11 +213,10 @@ const HomePage = () => {
 				<div className="p-4 sm:p-6">
 					{/* Search Bar */}
 					<div className="relative mb-6 group">
-						<div className={`flex items-center gap-3 px-4 py-3 rounded-full border transition-all duration-200 ${
-							isSearching
+						<div className={`flex items-center gap-3 px-4 py-3 rounded-full border transition-all duration-200 ${isSearching
 								? "bg-white/10 border-emerald-500/60 shadow-lg shadow-emerald-500/10"
 								: "bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/8"
-						}`}>
+							}`}>
 							<Search className={`h-5 w-5 flex-shrink-0 transition-colors ${isSearching ? "text-emerald-400" : "text-zinc-400 group-hover:text-zinc-300"}`} />
 							<input
 								ref={searchInputRef}
