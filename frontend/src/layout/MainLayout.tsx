@@ -26,7 +26,9 @@ const MainLayout = () => {
 	return (
 		<div className='h-screen bg-black text-white flex flex-col relative overflow-hidden'>
 			<LyricsOverlay />
-			<FloatingArtwork />
+			<div className='hidden sm:block'>
+				<FloatingArtwork />
+			</div>
 			<ResizablePanelGroup 
 				direction='horizontal' 
 				autoSaveId='music-app-layout' 

@@ -18,13 +18,13 @@ const Topbar = () => {
 		>
 			<div className='flex gap-2 items-center'>
 				<img src='/dreamweaver.png' className='size-8' alt='Dreamweaver logo' />
-				Dreamweaver
+				<span className='hidden sm:inline font-semibold'>Dreamweaver</span>
 			</div>
-			<div className='flex items-center gap-4'>
+			<div className='flex items-center gap-2 sm:gap-4'>
 				{isAdmin && (
-					<Link to={"/admin"} className={cn(buttonVariants({ variant: "outline" }))}>
-						<LayoutDashboardIcon className='size-4  mr-2' />
-						Admin Dashboard
+					<Link to={"/admin"} className={cn(buttonVariants({ variant: "outline" }), "px-2 sm:px-4")}>
+						<LayoutDashboardIcon className='size-4 sm:mr-2' />
+						<span className='hidden sm:inline'>Admin Dashboard</span>
 					</Link>
 				)}
 

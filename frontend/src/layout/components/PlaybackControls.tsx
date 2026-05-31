@@ -56,7 +56,7 @@ export const PlaybackControls = () => {
 	};
 
 	return (
-		<footer className='relative h-20 sm:h-24 bg-zinc-900 border-t border-zinc-800 px-4 select-none'>
+		<footer className='relative h-24 sm:h-24 bg-zinc-900 border-t border-zinc-800 px-4 select-none'>
 			{/* Mobile seek bar at the very top of the playbar */}
 			<div className='block sm:hidden absolute top-0 left-0 right-0 px-2 z-10'>
 				<Slider
@@ -67,6 +67,12 @@ export const PlaybackControls = () => {
 					onValueChange={handleSeek}
 				/>
 			</div>
+			{/* Mobile time display */}
+			<div className='block sm:hidden absolute top-2 right-3 z-10 flex gap-1 text-[9px] text-zinc-500 font-mono'>
+				<span>{formatTime(currentTime)}</span>
+				<span>/</span>
+				<span>{formatTime(duration)}</span>
+			</div>
 
 			<div className='flex justify-between items-center h-full max-w-[1800px] mx-auto'>
 				{/* currently playing song */}
@@ -76,7 +82,7 @@ export const PlaybackControls = () => {
 							<img
 								src={currentSong.imageUrl}
 								alt={currentSong.title}
-								className='w-10 h-10 sm:w-14 sm:h-14 object-cover rounded-md flex-shrink-0 border border-white/5 shadow-md'
+								className='w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-md flex-shrink-0 border border-white/5 shadow-md'
 							/>
 							<div className='flex-1 min-w-0'>
 								<div className='font-medium text-xs sm:text-sm truncate hover:underline cursor-pointer text-white'>

@@ -36,7 +36,10 @@ app.use(
 	cors({
 		origin: [
 			"http://localhost:3000",
+			"http://localhost:5000",
+			"https://cnpm-webnghenhacnhom2-production.up.railway.app",
 			"https://dreamwever.vercel.app",
+			"https://cnpm-web-nghe-nhac-nhom2.vercel.app",
 		],
 		credentials: true,
 	})

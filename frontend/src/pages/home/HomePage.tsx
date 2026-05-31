@@ -111,8 +111,8 @@ const HomePage = () => {
 							<span className="text-xs uppercase font-bold tracking-widest text-zinc-300">Playlist</span>
 						</div>
 
-						<div className="flex flex-col gap-2">
-							<h1 className="text-4xl sm:text-6xl font-black text-white">{sectionTitle}</h1>
+						<div className='flex flex-col gap-2'>
+							<h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white">{sectionTitle}</h1>
 							<p className="text-sm sm:text-base text-zinc-300 max-w-xl font-medium mt-1 leading-relaxed">
 								{sectionDesc}
 							</p>
@@ -142,10 +142,10 @@ const HomePage = () => {
 					{/* Songs List Table */}
 					<div className="bg-black/20 backdrop-blur-sm px-4 sm:px-6">
 						{/* Table Header */}
-						<div className="grid grid-cols-[16px_4fr_2fr_1fr_40px] gap-4 px-4 py-3 text-sm text-zinc-400 border-b border-white/5 font-semibold">
+						<div className="grid grid-cols-[16px_4fr_1fr_40px] sm:grid-cols-[16px_4fr_2fr_1fr_40px] gap-4 px-4 py-3 text-sm text-zinc-400 border-b border-white/5 font-semibold">
 							<div>#</div>
 							<div>Title</div>
-							<div>Released Date</div>
+							<div className='hidden sm:block'>Released Date</div>
 							<div className="flex justify-end">
 								<Clock className="h-4 w-4" />
 							</div>
@@ -160,7 +160,7 @@ const HomePage = () => {
 									<div
 										key={song._id}
 										onClick={() => handlePlaySectionSong(index)}
-										className={`grid grid-cols-[16px_4fr_2fr_1fr_40px] gap-4 px-4 py-3 text-sm text-zinc-400 hover:bg-white/5 rounded-md group cursor-pointer items-center transition-all ${isCurrentSong ? "bg-white/5" : ""
+										className={`grid grid-cols-[16px_4fr_1fr_40px] sm:grid-cols-[16px_4fr_2fr_1fr_40px] gap-4 px-4 py-3 text-sm text-zinc-400 hover:bg-white/5 rounded-md group cursor-pointer items-center transition-all ${isCurrentSong ? "bg-white/5" : ""
 											}`}
 									>
 										<div className="flex items-center justify-center">
@@ -186,7 +186,7 @@ const HomePage = () => {
 											</div>
 										</div>
 
-										<div className="truncate text-zinc-300 font-medium">
+										<div className="truncate text-zinc-300 font-medium hidden sm:block">
 											{song.createdAt?.split("T")[0] || "N/A"}
 										</div>
 
