@@ -36,7 +36,7 @@ app.use(
 	cors({
 		origin: [
 			"http://localhost:3000",
-			"https://cnpm-web-nghe-nhac-nhom2.vercel.app",
+			"https://dreamwever.vercel.app",
 		],
 		credentials: true,
 	})
