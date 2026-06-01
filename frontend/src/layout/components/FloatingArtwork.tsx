@@ -3,20 +3,19 @@ import { Mic2, Pause, Play, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const FloatingArtwork = () => {
-	const { currentSong, isPlaying, togglePlay, toggleLyrics, showLyrics } = usePlayerStore();
-	const [isVisible, setIsVisible] = useState(true);
+	const { currentSong, isPlaying, togglePlay, toggleLyrics, showLyrics, showFloatingArtwork, toggleFloatingArtwork } = usePlayerStore();
 	const [isHovered, setIsHovered] = useState(false);
 	const [prevSongId, setPrevSongId] = useState<string | null>(null);
 
 	// Re-show the card whenever a new song starts
 	useEffect(() => {
 		if (currentSong && currentSong._id !== prevSongId) {
-			setIsVisible(true);
+			if (!showFloatingArtwork) toggleFloatingArtwork();
 			setPrevSongId(currentSong._id);
 		}
 	}, [currentSong, prevSongId]);
 
-	if (!currentSong || !isVisible || showLyrics) return null;
+	if (!currentSong || !showFloatingArtwork || showLyrics) return null;
 
 	return (
 		<div
@@ -91,7 +90,7 @@ const FloatingArtwork = () => {
 
 					{/* Dismiss button */}
 					<button
-						onClick={() => setIsVisible(false)}
+						onClick={toggleFloatingArtwork}
 						title='Dismiss'
 						className='w-7 h-7 rounded-full bg-black/50 hover:bg-white/20 backdrop-blur-md border border-white/10 flex items-center justify-center transition-all duration-200 hover:scale-110'
 					>

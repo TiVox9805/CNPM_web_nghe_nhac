@@ -4,7 +4,7 @@ import { usePlayerStore } from "@/stores/usePlayerStore";
 import { usePlaylistStore } from "@/stores/usePlaylistStore";
 import { SignedIn } from "@clerk/clerk-react";
 import { cn } from "@/lib/utils";
-import { Laptop2, ListMusic, Mic2, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Volume1, Heart } from "lucide-react";
+import { Laptop2, Mic2, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Volume1, Heart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const formatTime = (seconds: number) => {
@@ -14,7 +14,7 @@ const formatTime = (seconds: number) => {
 };
 
 export const PlaybackControls = () => {
-	const { currentSong, isPlaying, togglePlay, playNext, playPrevious, showLyrics, toggleLyrics } = usePlayerStore();
+	const { currentSong, isPlaying, togglePlay, playNext, playPrevious, showLyrics, toggleLyrics, showFloatingArtwork, toggleFloatingArtwork } = usePlayerStore();
 	const { toggleFavorite, isFavorite } = usePlaylistStore();
 
 	const [volume, setVolume] = useState(75);
@@ -184,13 +184,16 @@ export const PlaybackControls = () => {
 					>
 						<Mic2 className='h-4 w-4 sm:h-5 sm:w-5' />
 					</Button>
-					<Button size='icon' variant='ghost' className='hidden sm:inline-flex hover:text-white text-zinc-400'>
-						<ListMusic className='h-4 w-4' />
-					</Button>
-					<Button size='icon' variant='ghost' className='hidden sm:inline-flex hover:text-white text-zinc-400'>
+					<Button
+						size='icon'
+						variant='ghost'
+						disabled={!currentSong}
+						onClick={toggleFloatingArtwork}
+						title='Now Playing'
+						className={`hidden sm:inline-flex transition-all h-9 w-9 ${showFloatingArtwork ? "text-green-500 hover:text-green-400 scale-105" : "hover:text-white text-zinc-400"}`}
+					>
 						<Laptop2 className='h-4 w-4' />
 					</Button>
-
 					<div className='hidden sm:flex items-center gap-2'>
 						<Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
 							<Volume1 className='h-4 w-4' />

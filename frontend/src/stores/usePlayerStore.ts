@@ -8,6 +8,8 @@ interface PlayerStore {
 	queue: Song[];
 	currentIndex: number;
 	showLyrics: boolean;
+	showFloatingArtwork: boolean;
+
 
 	initializeQueue: (songs: Song[]) => void;
 	playAlbum: (songs: Song[], startIndex?: number) => void;
@@ -16,6 +18,7 @@ interface PlayerStore {
 	playNext: () => void;
 	playPrevious: () => void;
 	toggleLyrics: () => void;
+	toggleFloatingArtwork: () => void;
 }
 
 export const usePlayerStore = create<PlayerStore>((set, get) => ({
@@ -24,7 +27,10 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
 	queue: [],
 	currentIndex: -1,
 	showLyrics: false,
+	showFloatingArtwork: true,
+
 	toggleLyrics: () => set({ showLyrics: !get().showLyrics }),
+	toggleFloatingArtwork: () => set({ showFloatingArtwork: !get().showFloatingArtwork }),
 
 	initializeQueue: (songs: Song[]) => {
 		set({
