@@ -10,6 +10,7 @@ import SignInPage from "./pages/auth/SignInPage";
 import SignUpPage from "./pages/auth/SignUpPage";
 import PlaylistPage from "./pages/playlist/PlaylistPage";
 import LikedSongsPage from "./pages/playlist/LikedSongsPage";
+import SongDetailPage from "./pages/song/SongDetailPage";
 
 import { Toaster } from "react-hot-toast";
 import NotFoundPage from "./pages/404/NotFoundPage";
@@ -59,6 +60,7 @@ function App() {
 							</ProtectedRoute>
 						}
 					/>
+					<Route path='songs/:songId' element={<SongDetailPage />} />
 				</Route>
 
 				<Route

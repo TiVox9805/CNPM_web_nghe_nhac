@@ -168,17 +168,6 @@ const UpdateSongDialog = ({ song, open, onOpenChange }: UpdateSongDialogProps) =
 						/>
 					</div>
 
-					{/* Duration */}
-					<div className="space-y-2">
-						<label className="text-sm font-medium text-zinc-200">Duration (seconds)</label>
-						<Input
-							type="number"
-							min="0"
-							value={form.duration}
-							onChange={(e) => setForm({ ...form, duration: e.target.value || "0" })}
-							className="bg-zinc-800 border-zinc-700 text-white focus-visible:ring-emerald-500"
-						/>
-					</div>
 
 					{/* Genres */}
 					<div className="space-y-2">

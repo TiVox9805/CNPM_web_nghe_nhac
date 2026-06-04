@@ -14,7 +14,7 @@ const formatTime = (seconds: number) => {
 };
 
 export const PlaybackControls = () => {
-	const { currentSong, isPlaying, togglePlay, playNext, playPrevious, showLyrics, toggleLyrics, showFloatingArtwork, toggleFloatingArtwork } = usePlayerStore();
+	const { currentSong, isPlaying, togglePlay, playNext, playPrevious, showLyrics, toggleLyrics, showFloatingArtwork, toggleFloatingArtwork, isShuffled, repeatMode, toggleShuffle, toggleRepeat } = usePlayerStore();
 	const { toggleFavorite, isFavorite } = usePlaylistStore();
 
 	const [volume, setVolume] = useState(75);
@@ -36,16 +36,9 @@ export const PlaybackControls = () => {
 		audio.addEventListener("timeupdate", updateTime);
 		audio.addEventListener("loadedmetadata", updateDuration);
 
-		const handleEnded = () => {
-			usePlayerStore.setState({ isPlaying: false });
-		};
-
-		audio.addEventListener("ended", handleEnded);
-
 		return () => {
 			audio.removeEventListener("timeupdate", updateTime);
 			audio.removeEventListener("loadedmetadata", updateDuration);
-			audio.removeEventListener("ended", handleEnded);
 		};
 	}, [currentSong]);
 
@@ -115,7 +108,12 @@ export const PlaybackControls = () => {
 						<Button
 							size='icon'
 							variant='ghost'
-							className='hidden sm:inline-flex hover:text-white text-zinc-400'
+							className={cn(
+								"hidden sm:inline-flex transition-colors",
+								isShuffled ? "text-green-500 hover:text-green-400" : "hover:text-white text-zinc-400"
+							)}
+							onClick={toggleShuffle}
+							title="Shuffle"
 						>
 							<Shuffle className='h-4 w-4' />
 						</Button>
@@ -152,9 +150,19 @@ export const PlaybackControls = () => {
 						<Button
 							size='icon'
 							variant='ghost'
-							className='hidden sm:inline-flex hover:text-white text-zinc-400'
+							className={cn(
+								"hidden sm:inline-flex transition-colors relative",
+								repeatMode !== "off" ? "text-green-500 hover:text-green-400" : "hover:text-white text-zinc-400"
+							)}
+							onClick={toggleRepeat}
+							title={`Repeat: ${repeatMode}`}
 						>
 							<Repeat className='h-4 w-4' />
+							{repeatMode === "one" && (
+								<span className='absolute top-1 right-1 text-[8px] font-bold leading-none bg-green-500 text-black rounded-full w-2.5 h-2.5 flex items-center justify-center scale-90'>
+									1
+								</span>
+							)}
 						</Button>
 					</div>
 

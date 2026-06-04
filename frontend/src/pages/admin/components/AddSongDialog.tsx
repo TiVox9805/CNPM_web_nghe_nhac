@@ -179,16 +179,6 @@ const AddSongDialog = () => {
 						/>
 					</div>
 
-					<div className='space-y-2'>
-						<label className='text-sm font-medium'>Duration (seconds)</label>
-						<Input
-							type='number'
-							min='0'
-							value={newSong.duration}
-							onChange={(e) => setNewSong({ ...newSong, duration: e.target.value || "0" })}
-							className='bg-zinc-800 border-zinc-700'
-						/>
-					</div>
 
 					<div className='space-y-2'>
 						<label className='text-sm font-medium'>Genres (Optional, comma separated)</label>

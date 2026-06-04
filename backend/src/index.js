@@ -20,6 +20,7 @@ import albumRoutes from "./routes/album.route.js";
 import statRoutes from "./routes/stat.route.js";
 import playlistRoutes from "./routes/playlist.route.js";
 import favoriteRoutes from "./routes/favorite.route.js";
+import commentRoutes from "./routes/comment.route.js";
 
 dotenv.config();
 
@@ -87,6 +88,7 @@ app.use("/api/albums", albumRoutes);
 app.use("/api/stats", statRoutes);
 app.use("/api/playlists", playlistRoutes);
 app.use("/api/favorites", favoriteRoutes);
+app.use("/api/comments", commentRoutes);
 const frontendPath = path.join(__dirname, "../../frontend/dist");
 
 app.use(express.static(frontendPath));

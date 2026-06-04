@@ -1,9 +1,11 @@
 import { useMusicStore } from "@/stores/useMusicStore";
 import FeaturedGridSkeleton from "@/components/skeletons/FeaturedGridSkeleton";
 import PlayButton from "./PlayButton";
+import { useNavigate } from "react-router-dom";
 
 const FeaturedSection = () => {
 	const { isLoading, featuredSongs, error } = useMusicStore();
+	const navigate = useNavigate();
 
 	if (isLoading) return <FeaturedGridSkeleton />;
 
@@ -20,7 +22,9 @@ const FeaturedSection = () => {
 					<img
 						src={song.imageUrl}
 						alt={song.title}
-						className='w-16 sm:w-20 h-16 sm:h-20 object-cover flex-shrink-0'
+						className='w-16 sm:w-20 h-16 sm:h-20 object-cover flex-shrink-0 cursor-pointer'
+						onDoubleClick={(e) => { e.stopPropagation(); navigate(`/songs/${song._id}`); }}
+						title="Double-click để xem chi tiết"
 					/>
 					<div className='flex-1 p-4'>
 						<p className='font-medium truncate'>{song.title}</p>

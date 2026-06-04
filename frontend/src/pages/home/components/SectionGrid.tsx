@@ -2,6 +2,7 @@ import { Song } from "@/types";
 import SectionGridSkeleton from "./SectionGridSkeleton";
 import { Button } from "@/components/ui/button";
 import PlayButton from "./PlayButton";
+import { useNavigate } from "react-router-dom";
 
 type SectionGridProps = {
 	title: string;
@@ -11,6 +12,7 @@ type SectionGridProps = {
 };
 const SectionGrid = ({ songs, title, isLoading, onShowAll }: SectionGridProps) => {
 	if (isLoading) return <SectionGridSkeleton />;
+	const navigate = useNavigate();
 
 	return (
 		<div className='mb-8'>
@@ -34,8 +36,9 @@ const SectionGrid = ({ songs, title, isLoading, onShowAll }: SectionGridProps) =
 								<img
 									src={song.imageUrl}
 									alt={song.title}
-									className='w-full h-full object-cover transition-transform duration-300 
-									group-hover:scale-105'
+									className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer'
+									onDoubleClick={(e) => { e.stopPropagation(); navigate(`/songs/${song._id}`); }}
+									title="Double-click để xem chi tiết"
 								/>
 							</div>
 							<PlayButton song={song} />

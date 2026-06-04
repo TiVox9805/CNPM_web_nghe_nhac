@@ -10,6 +10,7 @@ export interface Song {
 	updatedAt: string;
 	genres?: string[];
 	lyrics?: string;
+	playCount?: number;
 }
 
 export interface Album {
@@ -61,4 +62,18 @@ export interface User {
 	clerkId: string;
 	fullName: string;
 	imageUrl: string;
+}
+
+export interface Comment {
+	_id: string;
+	userId: string | {
+		_id: string;
+		fullName: string;
+		imageUrl: string;
+		clerkId: string;
+	};
+	songId: string;
+	content: string;
+	createdAt: string;
+	updatedAt: string;
 }

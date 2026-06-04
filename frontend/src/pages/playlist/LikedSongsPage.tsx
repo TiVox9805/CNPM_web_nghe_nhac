@@ -2,19 +2,15 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { usePlaylistStore } from "@/stores/usePlaylistStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
-import { Clock, Pause, Play, Heart } from "lucide-react";
+import { Pause, Play, Heart } from "lucide-react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import SongActionMenu from "@/components/SongActionMenu";
-
-export const formatDuration = (seconds: number) => {
-	const minutes = Math.floor(seconds / 60);
-	const remainingSeconds = seconds % 60;
-	return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
-};
 
 const LikedSongsPage = () => {
 	const { fetchFavorites, favorites, isLoading } = usePlaylistStore();
 	const { currentSong, isPlaying, playAlbum, togglePlay } = usePlayerStore();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		fetchFavorites();
@@ -95,13 +91,10 @@ const LikedSongsPage = () => {
 						{/* Table Section */}
 						<div className="bg-black/20 backdrop-blur-sm">
 							{/* table header */}
-							<div className="grid grid-cols-[16px_4fr_2fr_1fr_40px] gap-4 px-10 py-3 text-sm text-zinc-400 border-b border-white/5 font-semibold">
+							<div className="grid grid-cols-[16px_4fr_2fr_40px] gap-4 px-10 py-3 text-sm text-zinc-400 border-b border-white/5 font-semibold">
 								<div>#</div>
 								<div>Title</div>
 								<div>Released Date</div>
-								<div>
-									<Clock className="h-4 w-4" />
-								</div>
 								<div></div>
 							</div>
 
@@ -119,7 +112,7 @@ const LikedSongsPage = () => {
 												<div
 													key={song._id}
 													onClick={() => handlePlaySong(index)}
-													className={`grid grid-cols-[16px_4fr_2fr_1fr_40px] gap-4 px-4 py-2 text-sm text-zinc-400 hover:bg-white/5 rounded-md group cursor-pointer items-center transition-all ${
+													className={`grid grid-cols-[16px_4fr_2fr_40px] gap-4 px-4 py-2 text-sm text-zinc-400 hover:bg-white/5 rounded-md group cursor-pointer items-center transition-all ${
 														isCurrentSong ? "bg-white/5" : ""
 													}`}
 												>
@@ -136,7 +129,9 @@ const LikedSongsPage = () => {
 														<img
 															src={song.imageUrl}
 															alt={song.title}
-															className="size-10 object-cover rounded shadow-md"
+															className="size-10 object-cover rounded shadow-md cursor-pointer"
+															onDoubleClick={(e) => { e.stopPropagation(); navigate(`/songs/${song._id}`); }}
+															title="Double-click để xem chi tiết"
 														/>
 														<div className="min-w-0">
 															<div className={`font-semibold truncate ${isCurrentSong ? "text-green-500" : "text-white"}`}>
@@ -149,9 +144,6 @@ const LikedSongsPage = () => {
 													</div>
 													<div className="flex items-center truncate text-zinc-300">
 														{song.createdAt?.split("T")[0] || "N/A"}
-													</div>
-													<div className="flex items-center text-zinc-300">
-														{formatDuration(song.duration)}
 													</div>
 													<div className="flex items-center justify-end" onClick={(e) => e.stopPropagation()}>
 														<SongActionMenu song={song} />
