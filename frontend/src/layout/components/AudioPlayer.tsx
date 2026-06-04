@@ -7,7 +7,7 @@ const AudioPlayer = () => {
 	const prevSongRef = useRef<string | null>(null);
 	const playTrackedRef = useRef<boolean>(false);
 
-	const { currentSong, isPlaying, playNext } = usePlayerStore();
+	const { currentSong, isPlaying, playNext, repeatMode } = usePlayerStore();
 
 	// helper to increment play count once
 	const handlePlayIncrement = () => {
@@ -32,7 +32,12 @@ const AudioPlayer = () => {
 
 		const handleEnded = () => {
 			handlePlayIncrement();
-			playNext();
+			if (repeatMode === "one") {
+				audio.currentTime = 0;
+				audio.play().catch((err) => console.error("Error replaying song:", err));
+			} else {
+				playNext();
+			}
 		};
 
 		const handleTimeUpdate = () => {
@@ -52,7 +57,7 @@ const AudioPlayer = () => {
 			audio.removeEventListener("ended", handleEnded);
 			audio.removeEventListener("timeupdate", handleTimeUpdate);
 		};
-	}, [playNext, currentSong]);
+	}, [playNext, currentSong, repeatMode]);
 
 	// handle song changes
 	useEffect(() => {
